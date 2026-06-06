@@ -16,16 +16,24 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install dependencies (Task folder)
+        run: |
+          cd Task
+          npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Build (Task folder)
+        run: |
+          cd Task
+          npm run build
 
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: --prod
+      - name: Install Vercel CLI
+        run: |
+          cd Task
+          npm install -g vercel
+
+      - name: Deploy to Vercel (Task folder)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          cd Task
+          vercel --prod --confirm --token "$VERCEL_TOKEN"
