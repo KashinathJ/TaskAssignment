@@ -1,212 +1,94 @@
-# TalentFlow — Modern Job Board MVP
+# TalentFlow — Job Board (Task folder)
 
-A production-ready job board built with Next.js 14, TypeScript, Tailwind CSS, and Shadcn/ui. Browse curated tech jobs, apply instantly, or post new listings — all with a clean, scannable interface optimized for mobile and desktop.
+This folder contains the main job-board application used for the assessment. The app lives in the `Task` subfolder of the repository. This README explains how to run locally, update code, push changes to GitHub, and deploy via the included CI/CD pipeline.
 
-**Live Demo:** _Add your Vercel deployment URL here_
+Live demo: Add your Vercel URL here after deployment.
 
-**Repository:** _Add your GitHub repository URL here_
-
----
-
-## Features Checklist
-
-### UX & Design
-- [x] Clean, modern dashboard UI with clear typographical hierarchy
-- [x] Hero section with gradient background and illustration placeholder
-- [x] Intuitive search bar (filter by title, location, job type)
-- [x] Featured Jobs grid with visual distinction
-- [x] Distinct structural containers with `border-slate-200` borders
-- [x] Loading skeletons for job cards during data fetch
-- [x] Disabled button states during form submission
-- [x] Success/error toast notifications
-- [x] Fully responsive design (mobile-first → desktop grid)
-- [x] Sticky header with navigation and CTA
-
-### Job Seeker Flow
-- [x] Browse jobs with scannable tags (Full-time, Remote, salary range)
-- [x] Filter jobs by title/company, location/work mode, and type
-- [x] Detailed job description page with Markdown rendering
-- [x] Quick Apply modal with form validation (Name, Email, Resume Link, Cover Letter)
-- [x] Application success state with confirmation UI
-- [x] Job not-found handling
-
-### Employer Flow
-- [x] Post a Job form with real-time Zod validation
-- [x] Fields: Company Name, Logo URL, Job Title, Category, Location, Salary Range, Description
-- [x] Job type and work mode selectors
-- [x] Success state with link to view published listing
-- [x] Posted jobs persist in browser localStorage
+Repository: https://github.com/KashinathJ/TaskAssignment
 
 ---
 
-## Tech Stack
+## Quick Start (local)
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 14 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS + Shadcn/ui (Radix UI) |
-| Icons | Lucide React |
-| Forms | React Hook Form + Zod |
-| Markdown | react-markdown |
-| Data | Mock data + localStorage persistence |
-| CI/CD | GitHub Actions |
-| Deployment | Vercel |
+Prerequisites:
+- Node.js 18+ (recommended 20 LTS)
+- npm
 
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ (recommended: 20 LTS)
-- npm or yarn
-
-### Environment Variables
-
-This MVP uses mock data and localStorage — no backend credentials are required for local development. For production deployment, no environment variables are strictly needed.
-
-Optional (for future Supabase integration):
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-### Installation
+Commands:
 
 ```bash
-# Clone the repository
-git clone <your-repo-url>
-cd job-board
-
-# Install dependencies
+# from repository root
+cd Task
 npm install
-
-# Start development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### Available Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Create production build |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
+Open http://localhost:3000
 
 ---
 
-## Architecture Overview
+## How to make code changes and push (Task folder)
 
-```
-├── app/
-│   ├── globals.css          # Global styles + CSS variables
-│   ├── layout.tsx           # Root layout with header & toaster
-│   ├── page.tsx             # Landing page (hero + search + jobs)
-│   └── jobs/
-│       ├── [id]/page.tsx    # Job detail + apply modal
-│       └── post/page.tsx    # Employer post job form
-├── components/
-│   ├── ui/                  # Shadcn-style primitives
-│   ├── apply-modal.tsx      # Quick apply dialog
-│   ├── header.tsx           # Site navigation
-│   ├── hero.tsx             # Landing hero section
-│   ├── job-card.tsx         # Job listing card
-│   ├── job-card-skeleton.tsx
-│   └── search-bar.tsx       # Filter controls
-├── hooks/
-│   └── use-toast.ts         # Toast notification hook
-├── lib/
-│   ├── data.ts              # Mock job data (7 listings)
-│   ├── job-store.ts         # localStorage persistence layer
-│   └── utils.ts             # Utility helpers
-├── types.ts                 # TypeScript interfaces
-└── .github/workflows/
-    └── deploy.yml           # CI/CD pipeline
+1. Edit code in the `Task` folder (components, pages, styles).
+2. Test locally:
+
+```bash
+cd Task
+npm install
+npm run dev
+# make changes, verify in browser
 ```
 
-### Design Choices
+3. Commit & push from repository root (recommended):
 
-1. **Client-side persistence** — Posted jobs are stored in `localStorage` for instant MVP functionality without a database. Mock data seeds the initial state.
-2. **Component composition** — Shadcn/ui primitives provide accessible, consistent UI building blocks.
-3. **Form validation** — Zod schemas enforce data integrity on both apply and post flows.
-4. **Loading states** — Simulated delays with skeleton loaders create polished perceived performance.
+```bash
+# at repository root
+git add Task
+git commit -m "feat(Task): your change description"
+git push origin main
+```
 
----
-
-## CI/CD Pipeline
-
-The GitHub Actions workflow (`.github/workflows/deploy.yml`) runs on:
-
-- **Push to `main`** — Lint, build, and deploy to Vercel
-- **Pull requests to `main`** — Lint and build only (no deploy)
-
-### Pipeline Steps
-
-1. Checkout code
-2. Setup Node.js 20 with npm caching
-3. Install dependencies (`npm ci`)
-4. Run ESLint (`npm run lint`)
-5. Build application (`npm run build`)
-6. Deploy to Vercel (push to main only)
-
-### Required GitHub Secrets
-
-| Secret | Description |
-|--------|-------------|
-| `VERCEL_TOKEN` | Vercel API token from [vercel.com/account/tokens](https://vercel.com/account/tokens) |
-| `VERCEL_ORG_ID` | Organization ID from `.vercel/project.json` |
-| `VERCEL_PROJECT_ID` | Project ID from `.vercel/project.json` |
+The CI workflow at `.github/workflows/deploy.yml` targets the `Task` folder and will run on pushes to `main`.
 
 ---
 
-## Vercel Deployment Guide
+## Deploying to Vercel via GitHub Actions
 
-### Option A: Vercel Dashboard (Recommended for first deploy)
+1. Create a Vercel project (optional: link via Vercel dashboard).
+2. Generate a personal token at https://vercel.com/account/tokens and copy the token.
+3. In GitHub, go to your repository → Settings → Secrets and variables → Actions and add:
+   - `VERCEL_TOKEN` (required)
+   - `VERCEL_ORG_ID` (optional if using Vercel project linking)
+   - `VERCEL_PROJECT_ID` (optional)
+4. Push to `main` to trigger `.github/workflows/deploy.yml` which:
+   - cd into `Task`
+   - runs `npm ci` and `npm run build`
+   - runs `vercel --prod` using the `VERCEL_TOKEN`
 
-1. Push your code to GitHub
-2. Go to [vercel.com/new](https://vercel.com/new)
-3. Import your GitHub repository
-4. Configure build settings:
-   - **Framework Preset:** Next.js
-   - **Build Command:** `npm run build`
-   - **Output Directory:** `.next` (default)
-   - **Install Command:** `npm install`
-5. Click **Deploy**
-
-### Option B: GitHub Actions (Automated CI/CD)
-
-1. Create a Vercel project linked to your repo (Option A)
-2. Install Vercel CLI locally: `npm i -g vercel`
-3. Run `vercel link` to generate `.vercel/project.json`
-4. Copy `orgId` and `projectId` from `.vercel/project.json`
-5. Create a Vercel token at [vercel.com/account/tokens](https://vercel.com/account/tokens)
-6. Add secrets to GitHub: **Settings → Secrets and variables → Actions**
-   - `VERCEL_TOKEN`
-   - `VERCEL_ORG_ID`
-   - `VERCEL_PROJECT_ID`
-7. Push to `main` — the pipeline deploys automatically
-
-### Environment Variables on Vercel
-
-No environment variables are required for the current MVP. If you add Supabase later, configure them under **Project Settings → Environment Variables**.
+Notes:
+- If you prefer the Vercel Git integration, you can also import the repo in the Vercel dashboard and skip setting secrets; Vercel will build on every push automatically.
 
 ---
 
-## Pages
+## Useful Git commands
 
-| Route | Description |
-|-------|-------------|
-| `/` | Landing page with hero, search filters, and job listings |
-| `/jobs/[id]` | Job detail with Markdown description and Quick Apply |
-| `/jobs/post` | Employer form to publish a new job listing |
+```bash
+# stage changes
+git add Task
+
+# commit
+git commit -m "fix(Task): description"
+
+# push
+git push origin main
+```
 
 ---
 
-## License
+## Where to add documentation
 
-MIT
+- Add AI-generated documentation files under `Task/docs/` or `docs/` at repo root. The CI will include them in the repo.
+
+---
+
+If you want, I can push an updated `Task/README.md` and `README.md` to the repository now (I will commit and push the changes). Please confirm and I'll proceed.
